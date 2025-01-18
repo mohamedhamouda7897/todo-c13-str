@@ -125,8 +125,8 @@ class IntroductionScreen extends StatelessWidget {
                   animate: true,
                   curve: Curves.bounceInOut,
                   onToggle: (index) {
-                    provider.changeTheme();
-                    print('switched to: $index');
+                    provider.changeTheme(index!, context.locale.toString());
+                    print('switched to: $index ${context.locale.toString()}');
                   },
                 ),
               ],

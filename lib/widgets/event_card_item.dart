@@ -11,7 +11,11 @@ class EventCardItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 12,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+      shape: RoundedRectangleBorder(
+          side: BorderSide(
+              color: model.isDone ? Colors.green : Colors.transparent,
+              width: 5),
+          borderRadius: BorderRadius.circular(18)),
       child: Container(
         height: 250,
         child: Stack(
@@ -81,9 +85,20 @@ class EventCardItem extends StatelessWidget {
                           color: Theme.of(context).primaryColor,
                         ),
                       ),
-                      Icon(
-                        Icons.favorite_border,
-                        color: Theme.of(context).primaryColor,
+                      InkWell(
+                        onTap: () {
+                          if (model.isDone) {
+                            model.isDone = false;
+                          } else {
+                            model.isDone = true;
+                          }
+
+                          FirebaseManager.updateEvent(model);
+                        },
+                        child: Icon(
+                          model.isDone ? Icons.favorite : Icons.favorite_border,
+                          color: Theme.of(context).primaryColor,
+                        ),
                       ),
                     ],
                   ),

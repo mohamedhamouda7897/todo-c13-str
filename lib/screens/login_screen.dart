@@ -1,14 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:todo_c13_str/firebase/firebase_manager.dart';
+import 'package:todo_c13_str/providers/my_provider.dart';
+import 'package:todo_c13_str/providers/user_provider.dart';
 import 'package:todo_c13_str/screens/home/home_screen.dart';
 import 'package:todo_c13_str/screens/register_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   static const String routeName = "LoginScreen";
 
-  const LoginScreen({super.key});
+  LoginScreen({super.key});
+
+  var emailController = TextEditingController();
+  var passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    var provider = Provider.of<UserProvider>(context);
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -31,6 +39,7 @@ class LoginScreen extends StatelessWidget {
                   height: 16,
                 ),
                 TextField(
+                  controller: emailController,
                   style: Theme.of(context).textTheme.titleSmall,
                   decoration: InputDecoration(
                     contentPadding: EdgeInsets.symmetric(vertical: 16),
@@ -55,6 +64,7 @@ class LoginScreen extends StatelessWidget {
                   height: 16,
                 ),
                 TextField(
+                  controller: passwordController,
                   obscureText: true,
                   style: Theme.of(context).textTheme.titleSmall,
                   decoration: InputDecoration(
@@ -82,6 +92,7 @@ class LoginScreen extends StatelessWidget {
                 ),
                 InkWell(
                   onTap: () {
+                    FirebaseManager.resetPassword();
                     // Navigator.pushNamed(context, ForgetPassword.routeName);
                   },
                   child: Text(
@@ -99,8 +110,40 @@ class LoginScreen extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () {
                     FocusScope.of(context).unfocus();
-                    Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+                    // Navigator.pushReplacementNamed(context, HomeScreen.routeName);
 
+                    FirebaseManager.login(
+                        emailController.text, passwordController.text, () {
+                      showDialog(
+                        context: context,
+                        builder: (context) => const AlertDialog(
+                            title: Center(child: CircularProgressIndicator()),
+                            backgroundColor: Colors.transparent),
+                      );
+                    }, () async {
+                      Navigator.pop(context);
+                      await provider.initUser();
+                      Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        HomeScreen.routeName,
+                        (route) => false,
+                      );
+                    }, (message) {
+                      Navigator.pop(context);
+                      showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                                title: const Text("Something went wrong"),
+                                content: Text(message),
+                                actions: [
+                                  ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: const Text("Ok"))
+                                ],
+                              ));
+                    });
                   },
                   child: Text(
                     "Login",

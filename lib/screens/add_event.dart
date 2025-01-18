@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -178,6 +179,7 @@ class AddEventScreen extends StatelessWidget {
                     child: ElevatedButton(
                       onPressed: () {
                         TaskModel model = TaskModel(
+                            userId: FirebaseAuth.instance.currentUser!.uid,
                             title: titleController.text,
                             description: descriptionController.text,
                             category: provider.selectedCategoryName,

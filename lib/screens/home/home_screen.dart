@@ -15,137 +15,14 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int selectedIndex = 0;
-  List<String> categories = [
-    "All",
-    "birthday",
-    "book_club",
-    "eating",
-    "exhibtion",
-    "gaming",
-    "holiday",
-    "meeting",
-    "sport",
-    "workshop",
-  ];
 
-  String selectedCategory = "";
+  int selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
-      appBar: AppBar(
-        centerTitle: false,
-        backgroundColor: Theme.of(context).primaryColor,
-        title: Column(
-          children: [
-            Text(
-              "Welcome Back ✨",
-              style: Theme.of(context)
-                  .textTheme
-                  .titleSmall!
-                  .copyWith(color: Colors.white),
-            ),
-            Text(
-              "John Safwat",
-              style: Theme.of(context)
-                  .textTheme
-                  .titleMedium!
-                  .copyWith(color: Colors.white),
-            ),
-          ],
-        ),
-        actions: [
-          const Icon(
-            Icons.sunny,
-            color: Colors.white,
-          ),
-          const SizedBox(
-            width: 8,
-          ),
-          Container(
-              padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
-              decoration: BoxDecoration(
-                  color: Colors.white, borderRadius: BorderRadius.circular(8)),
-              child: Text(
-                "EN",
-                style: Theme.of(context).textTheme.bodyMedium,
-              )),
-          const SizedBox(
-            width: 8,
-          ),
-        ],
-        shape: const OutlineInputBorder(
-            borderRadius: BorderRadius.only(
-              bottomRight: Radius.circular(24),
-              bottomLeft: Radius.circular(24),
-            ),
-            borderSide: BorderSide(color: Colors.transparent)),
-        bottom: AppBar(
-          shape: const OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.transparent),
-              borderRadius: BorderRadius.only(
-                bottomRight: Radius.circular(24),
-                bottomLeft: Radius.circular(24),
-              )),
-          toolbarHeight: 120,
-          backgroundColor: Theme.of(context).primaryColor,
-          centerTitle: false,
-          title: Column(
-            children: [
-              Row(
-                children: [
-                  const Icon(
-                    Icons.pin_drop_outlined,
-                    color: Colors.white,
-                  ),
-                  Text(
-                    "Cairo , Egypt",
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleSmall!
-                        .copyWith(color: Colors.white),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 70,
-                child: Center(
-                  child: ListView.separated(
-                    scrollDirection: Axis.horizontal,
-                    separatorBuilder: (context, index) => const SizedBox(
-                      width: 8,
-                    ),
-                    itemBuilder: (context, index) {
-                      return Container(
-                        alignment: Alignment.center,
-                        child: InkWell(
-                          onTap: () {
-                            selectedCategory = categories[index];
-                            if (selectedCategory == "All") {
-                              selectedCategory = "";
-                            }
-                            setState(() {});
-                          },
-                          child: Text(
-                            categories[index],
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleSmall!
-                                .copyWith(color: Colors.white),
-                          ),
-                        ),
-                      );
-                    },
-                    itemCount: categories.length,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
+
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -180,7 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: [
         HomeTab(
-          categoryName: selectedCategory,
+
         ),
         MapTab(),
         LoveTab(),
